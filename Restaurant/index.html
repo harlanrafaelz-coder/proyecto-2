@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noir & Sal — Restaurante</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0e0e0f;
+            --bg-alt: #161617;
+            --surface: #1c1c1e;
+            --border: #2a2a2d;
+            --gold: #c9a24b;
+            --gold-soft: #a8874a;
+            --text: #e6e3dc;
+            --muted: #8b877e;
+            --serif: "Georgia", "Times New Roman", serif;
+            --sans: "Helvetica Neue", Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            font-weight: 300;
+            line-height: 1.7;
+            letter-spacing: 0.02em;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: var(--serif);
+            font-weight: 400;
+            letter-spacing: 0.04em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ---------- NAV ---------- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(14, 14, 15, 0.92);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+
+
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 32px;
+        }
+
+        .logo {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 38px;
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            transition: color 0.25s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+        }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 120px 24px 60px;
+            padding: 120px 24px 60px;
+            
+            background-image: 
+            linear-gradient(rgba(14, 14, 15, 0.40), rgba(14, 14, 15, 0.60) ), url("R.jpg") ;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            
+            
+        }
+
+        .hero-sub {
+            font-size: 0.75rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold-soft);
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 8vw, 5.2rem);
+            line-height: 1.1;
+            color: var(--text);
+            margin-bottom: 26px;
+        }
+
+        .hero h1 span {
+            display: block;
+            font-style: italic;
+            color: var(--gold);
+            font-size: 0.55em;
+            letter-spacing: 0.1em;
+            margin-top: 10px;
+        }
+
+        .hero p {
+            max-width: 520px;
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 46px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 44px;
+            border: 1px solid var(--gold-soft);
+            color: var(--gold);
+            font-size: 0.76rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            background: transparent;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+            font-family: var(--sans);
+        }
+
+        .btn:hover {
+            background: var(--gold);
+            color: #0e0e0f;
+        }
+
+        /* ---------- SECTIONS ---------- */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 110px 32px;
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-head .eyebrow {
+            font-size: 0.72rem;
+            letter-spacing: 0.36em;
+            text-transform: uppercase;
+            color: var(--gold-soft);
+            margin-bottom: 16px;
+        }
+
+        .section-head h2 {
+            font-size: clamp(1.9rem, 4vw, 2.8rem);
+        }
+
+        .divider {
+            width: 46px;
+            height: 1px;
+            background: var(--gold-soft);
+            margin: 22px auto 0;
+        }
+
+        /* ---------- MENU ---------- */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 46px 80px;
+        }
+
+        .menu-cat {
+            grid-column: 1 / -1;
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--gold);
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            margin-top: 8px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 18px;
+            padding: 6px 0;
+        }
+
+        .menu-item-info h3 {
+            font-size: 1.02rem;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .menu-item-info p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            max-width: 340px;
+        }
+
+        .menu-item .price {
+            font-family: var(--serif);
+            color: var(--gold);
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        /* ---------- RESERVATION ---------- */
+        #reservar {
+            background: var(--bg-alt);
+            max-width: none;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .reserve-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px 24px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        input,
+        select,
+        textarea {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 13px 16px;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 300;
+            outline: none;
+            transition: border-color 0.25s ease;
+            border-radius: 0;
+            width: 100%;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--gold-soft);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 96px;
+        }
+
+        input[type="date"],
+        input[type="time"] {
+            color-scheme: dark;
+        }
+
+        .form-actions {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .form-actions .btn {
+            padding: 15px 64px;
+        }
+
+        .form-note {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* ---------- CONTACT ---------- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .contact-card {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .contact-card h3 {
+            font-size: 0.78rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+            font-family: var(--sans);
+            font-weight: 400;
+        }
+
+        .contact-card p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.9;
+        }
+
+        .contact-card a {
+            transition: color 0.25s ease;
+        }
+
+        .contact-card a:hover {
+            color: var(--gold);
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 46px 32px;
+            text-align: center;
+        }
+
+        footer .logo {
+            font-size: 1.1rem;
+            margin-bottom: 14px;
+            display: inline-block;
+        }
+
+        footer p {
+            font-size: 0.76rem;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+        }
+
+        .foot-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin: 18px 0;
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .foot-links a {
+            color: var(--muted);
+            transition: color 0.25s ease;
+        }
+
+        .foot-links a:hover {
+            color: var(--gold);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 860px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 34px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 20px;
+                font-size: 0.68rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav {
+                padding: 16px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 80px 22px;
+            }
+
+            .hero {
+                padding-top: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="nav">
+            <a href="#" class="logo">Noir &amp; Sal</a>
+            <div class="nav-links">
+                <a href="#menu">Menu</a>
+                <a href="#reservar">Reservar</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+        </nav>
+        
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <p class="hero-sub">Cozinha de autor · Desde 2012</p>
+        <h1>Noir &amp; Sal
+            <span>Alta cozinha, silêncio e sabor</span>
+        </h1>
+        <p>Uma experiência íntima onde a luz suave e a matéria-prima se encontram. Reserve a sua mesa e deixe-se guiar
+            pelo nosso menu de temporada.</p>
+        <a href="#reservar" class="btn">Reservar mesa</a>
+    </section>
+
+    <!-- MENU -->
+    <section id="menu">
+        <div class="section-head">
+            <p class="eyebrow">Carta de temporada</p>
+            <h2>O Nosso Menu</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="menu-grid">
+            <div class="menu-cat">Entradas</div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Croquetes de cogumelos e trufa</h3>
+                    <p>Cogumelos de temporada, bechamel cremosa e azeite de trufa negra.</p>
+                </div>
+                <span class="price">12€</span>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Steak tartar de vitela</h3>
+                    <p>Corte à faca, alcaparras, gema curada e pão de massa-mãe.</p>
+                </div>
+                <span class="price">18€</span>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Vieiras na brasa</h3>
+                    <p>Puré de couve-flor fumada, manteiga de citrinos.</p>
+                </div>
+                <span class="price">21€</span>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Burrata com tomate confitado</h3>
+                    <p>Manjericão fresco, azeite de oliva virgem extra e pão de focaccia.</p>
+                </div>
+                <span class="price">15€</span>
+            </div>
+
+            <div class="menu-cat">Pratos Principais</div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Lombo de vitela maturada</h3>
+                    <p>Redução de vinho tinto, batata confitada e legumes de temporada.</p>
+                </div>
+                <span class="price">28€</span>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Robalo selvagem no forno</h3>
+                    <p>Fundo de açafrão, espargos verdes e azeite de endro.</p>
+                </div>
+                <span class="price">26€</span>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Risoto de abóbora e parmesão</h3>
+                    <p>Abóbora assada, salvia crocante e parmesão curado 24 meses.</p>
+                </div>
+                <span class="price">19€</span>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Pato confitado</h3>
+                    <p>Puré de batata-doce, redução de laranja e ervas frescas.</p>
+                </div>
+                <span class="price">24€</span>
+            </div>
+
+            <div class="menu-cat">Sobremesas</div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Tarte de chocolate amargo</h3>
+                    <p>Chocolate 70%, flor de sal e gelado de baunilha de Madagáscar.</p>
+                </div>
+                <span class="price">9€</span>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-info">
+                    <h3>Crème brûlée de lavanda</h3>
+                    <p>Infusão de lavanda, açúcar caramelizado e frutos vermelhos.</p>
+                </div>
+                <span class="price">8€</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESERVATION -->
+    <section id="reservar">
+        <div class="reserve-wrap">
+            <div class="section-head">
+                <p class="eyebrow">Reservas</p>
+                <h2>Reserve a sua mesa</h2>
+                <div class="divider"></div>
+            </div>
+
+            <form id="reservaForm">
+                <div class="field">
+                    <label for="nombre">Nome completo</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="O seu nome" required>
+                </div>
+
+                <div class="field">
+                    <label for="telefono">Telefone</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="+351 900 000 000" required>
+                </div>
+
+                <div class="field">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                </div>
+
+                <div class="field">
+                    <label for="personas">Número de pessoas</label>
+                    <select id="personas" name="personas" required>
+                        <option value="">Selecione</option>
+                        <option>1 pessoa</option>
+                        <option>2 pessoas</option>
+                        <option>3 pessoas</option>
+                        <option>4 pessoas</option>
+                        <option>5 pessoas</option>
+                        <option>6 pessoas</option>
+                        <option>Mais de 6 pessoas</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="fecha">Data</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+
+                <div class="field">
+                    <label for="hora">Hora</label>
+                    <select id="hora" name="hora" required>
+                        <option value="">Selecione</option>
+                        <option>13:00</option>
+                        <option>13:30</option>
+                        <option>14:00</option>
+                        <option>14:30</option>
+                        <option>15:00</option>
+                        <option>20:00</option>
+                        <option>20:30</option>
+                        <option>21:00</option>
+                        <option>21:30</option>
+                        <option>22:00</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label for="notas">Notas adicionais (opcional)</label>
+                    <textarea id="notas" name="notas" placeholder="Alergias, celebrações, preferências..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Solicitar reserva</button>
+                </div>
+
+                <p class="form-note" id="formMsg">Receberá confirmação por telefone ou e-mail em menos de 24 h.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contacto">
+        <div class="section-head">
+            <p class="eyebrow">Visite-nos</p>
+            <h2>Contacto</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h3>Endereço</h3>
+                <p>Rua do Silêncio, 24<br>28004 Madrid, Espanha</p>
+            </div>
+
+            <div class="contact-card">
+                <h3>Horário</h3>
+                <p>Ter – Dom<br>13:00 – 16:00 &nbsp;·&nbsp; 20:00 – 23:30<br>Segunda-feira encerrado</p>
+            </div>
+
+            <div class="contact-card">
+                <h3>Reservas</h3>
+                <p>
+                    <a href="tel:+34910000000">+34 910 000 000</a><br>
+                    <a href="mailto:hola@noirysal.com">hola@noirysal.com</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="#" class="logo">Noir &amp; Sal</a>
+        <div class="foot-links">
+            <a href="#menu">Menu</a>
+            <a href="#reservar">Reservar</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+        <p>© 2025 Noir &amp; Sal · Todos os direitos reservados</p>
+    </footer>
+
+    <script>
+        // Data mínima = hoje
+        const fechaInput = document.getElementById('fecha');
+        const hoje = new Date().toISOString().split('T')[0];
+        fechaInput.min = hoje;
+
+        // Gestão do formulário (demo, sem backend)
+        document.getElementById('reservaForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const msg = document.getElementById('formMsg');
+            const nome = document.getElementById('nombre').value.trim();
+
+            msg.textContent = `Obrigado${nome ? ', ' + nome : ''}. Recebemos o seu pedido de reserva. Entraremos em contacto em breve para confirmar.`;
+            msg.style.color = '#c9a24b';
+
+            this.reset();
+            fechaInput.min = hoje;
+
+            setTimeout(() => {
+                msg.textContent = 'Receberá confirmação por telefone ou e-mail em menos de 24 h.';
+                msg.style.color = '';
+            }, 8000);
+        });
+    </script>
+
+</body>
+
+</html>
